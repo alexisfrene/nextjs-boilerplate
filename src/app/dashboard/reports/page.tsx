@@ -47,7 +47,7 @@ import {
 import { toast } from "sonner";
 import { DensityFeature, DensityState } from "../DensityFeature";
 import { columns } from "./columns";
-import { getSelectClosed } from "@/lib-order-works";
+import { getSelectClosed } from "@/lib";
 import { Badge } from "@/ui";
 
 export default function ReportsPage() {
@@ -436,11 +436,9 @@ export default function ReportsPage() {
             className="flex min-w-[400px] relative content-start"
           >
             <Input
-              icon={MdOutlineSearch}
               id="search"
               name="search"
               type="text"
-              iconSize="text-2xl"
               placeholder="Buscar por Código..."
               defaultValue={filter}
               onChange={handleSearchChange}

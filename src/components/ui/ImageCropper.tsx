@@ -11,9 +11,8 @@ import ReactCrop, {
 import "react-image-crop/dist/ReactCrop.css";
 import setCanvasPreview from "../setCanvasPreview";
 import { Button } from "@/ui";
-import Image from "next/image";
 
-const ASPECT_RATIO = 0;
+const ASPECT_RATIO = 1; // Ajustar si deseas un aspecto específico
 const MIN_DIMENSION = 150;
 
 interface ImageCropperProps {
@@ -39,38 +38,58 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
     reader.addEventListener("load", () => {
       const imageElement = new Image();
       const imageUrl = reader.result?.toString() || "";
-      imageElement.src = imageUrl;
 
-      imageElement.addEventListener("load", (e) => {
+      imageElement.src = imageUrl;
+      imageElement.onload = () => {
         if (error) setError("");
-        const target = e.currentTarget as HTMLImageElement;
-        const { naturalWidth, naturalHeight } = target;
+
+        const { naturalWidth, naturalHeight } = imageElement;
         if (naturalWidth < MIN_DIMENSION || naturalHeight < MIN_DIMENSION) {
-          setError("La Imagen debe ser al menos de 150 x 150 pixels.");
+          setError("La Imagen debe ser al menos de 150 x 150 píxeles.");
           return setImgSrc("");
         }
-      });
-      setImgSrc(imageUrl);
+
+        setImgSrc(imageUrl);
+      };
     });
+
     reader.readAsDataURL(file);
   };
 
   const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const target = e.currentTarget as HTMLImageElement;
     const { width, height } = target;
+
     const cropWidthInPercent = (MIN_DIMENSION / width) * 100;
 
-    const initialCrop: Crop = makeAspectCrop(
+    const initialCrop: PercentCrop = makeAspectCrop(
       {
-        unit: "%",
+        unit: "%" as const, // Garantizar que unit sea un valor válido
         width: cropWidthInPercent,
       },
-      1,
+      ASPECT_RATIO,
       width,
       height
     );
+
     const centeredCrop = centerCrop(initialCrop, width, height);
     setCrop(centeredCrop);
+  };
+
+  const handleSave = () => {
+    if (imgRef.current && previewCanvasRef.current && crop) {
+      const pixelCrop = convertToPixelCrop(
+        crop as PercentCrop, // Asegurar que crop sea un PercentCrop
+        imgRef.current.naturalWidth,
+        imgRef.current.naturalHeight
+      );
+
+      setCanvasPreview(imgRef.current, previewCanvasRef.current, pixelCrop);
+
+      const dataUrl = previewCanvasRef.current.toDataURL();
+      updateImage(dataUrl);
+      onSave(dataUrl);
+    }
   };
 
   return (
@@ -83,12 +102,12 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
       {imgSrc && (
         <div className="flex flex-col items-center">
           <ReactCrop
+            crop={crop || undefined}
             onChange={(_, percentCrop) => setCrop(percentCrop)}
             keepSelection
             aspect={ASPECT_RATIO}
-            minWidth={MIN_DIMENSION}
           >
-            <Image
+            <img
               ref={imgRef}
               src={imgSrc}
               alt="Subir"
@@ -96,42 +115,22 @@ export const ImageCropper: React.FC<ImageCropperProps> = ({
               onLoad={onImageLoad}
             />
           </ReactCrop>
-          <Button
-            variant="outline"
-            onClick={() => {
-              if (imgRef.current && previewCanvasRef.current && crop) {
-                setCanvasPreview(
-                  imgRef.current,
-                  previewCanvasRef.current,
-                  convertToPixelCrop(
-                    crop,
-                    imgRef.current.width,
-                    imgRef.current.height
-                  )
-                );
-                const dataUrl = previewCanvasRef.current.toDataURL();
-                updateImage(dataUrl);
-                onSave(dataUrl);
-              }
-            }}
-          >
+          <Button variant="outline" onClick={handleSave}>
             Guardar
           </Button>
         </div>
       )}
-      {crop && (
-        <canvas
-          ref={previewCanvasRef}
-          className="mt-4"
-          style={{
-            display: "none",
-            border: "1px solid black",
-            objectFit: "contain",
-            width: 196,
-            height: 128,
-          }}
-        />
-      )}
+      <canvas
+        ref={previewCanvasRef}
+        className="mt-4"
+        style={{
+          display: "none",
+          border: "1px solid black",
+          objectFit: "contain",
+          width: 196,
+          height: 128,
+        }}
+      />
     </>
   );
 };

@@ -14,18 +14,13 @@ import {
 } from "@/ui";
 import { Button, Input } from "@/components";
 import { toast } from "sonner";
-import {
-  MdOutline123,
-  MdOutlineAbc,
-  MdEmail,
-  MdInfoOutline,
-  MdModeEdit,
-} from "react-icons/md";
+import { MdInfoOutline, MdModeEdit } from "react-icons/md";
 import { Customer } from "@/lib";
 import { editCustomer } from "@/lib";
 import { getCustomer } from "@/lib";
 import { ImageCropper } from "@/ui";
 import { ScrollArea } from "@/ui";
+import Image from "next/image";
 
 function EditCustomerModal({ customerId }: any) {
   const [open, setOpen] = useState(false);
@@ -142,7 +137,7 @@ function EditCustomerModal({ customerId }: any) {
                             filesObject
                           );
                           if (result.statusCode === 200) {
-                            toast.success("Exito: ", {
+                            toast.success("Éxito: ", {
                               description: result.message,
                               className:
                                 "group border-green bg-green-600 text-white",
@@ -165,8 +160,6 @@ function EditCustomerModal({ customerId }: any) {
                           <div className="grid grid-rows-2 grid-flow-col place-self-center">
                             <div className="col-span-1">
                               <Input
-                                icon={MdOutlineAbc}
-                                iconSize="text-2xl"
                                 name="name"
                                 type="text"
                                 defaultValue={customer.name}
@@ -177,8 +170,6 @@ function EditCustomerModal({ customerId }: any) {
                             </div>
                             <div className="col-span-1">
                               <Input
-                                icon={MdOutline123}
-                                iconSize="text-2xl"
                                 name="cuit"
                                 type="text"
                                 defaultValue={customer.cuit}
@@ -196,7 +187,7 @@ function EditCustomerModal({ customerId }: any) {
                                     : undefined
                                 }
                               >
-                                <img
+                                <Image
                                   style={{
                                     width: "164px",
                                     height: "164px",
@@ -241,8 +232,6 @@ function EditCustomerModal({ customerId }: any) {
                         </div>
                         <div className="mb-6 place-self-center w-8/12">
                           <Input
-                            icon={MdOutlineAbc}
-                            iconSize="text-2xl"
                             name="fiscalAddress"
                             defaultValue={customer.fiscalAddress}
                             readOnly={!editInfo}
@@ -253,8 +242,6 @@ function EditCustomerModal({ customerId }: any) {
                         </div>
                         <div className="mb-6 place-self-center w-8/12">
                           <Input
-                            icon={MdOutlineAbc}
-                            iconSize="text-2xl"
                             name="baseAddress"
                             defaultValue={customer.baseAddress}
                             readOnly={!editInfo}
@@ -264,19 +251,15 @@ function EditCustomerModal({ customerId }: any) {
                         </div>
                         <div className="mb-6 place-self-center w-8/12">
                           <Input
-                            icon={MdOutline123}
-                            iconSize="text-2xl"
                             name="phone"
                             type="text"
                             defaultValue={customer.phone}
                             readOnly={!editInfo}
-                            placeholder="Telefono del Cliente"
+                            placeholder="Teléfono del Cliente"
                           />
                         </div>
                         <div className="mb-6 place-self-center w-8/12">
                           <Input
-                            icon={MdEmail}
-                            iconSize="text-2xl"
                             name="email"
                             defaultValue={customer.email}
                             readOnly={!editInfo}

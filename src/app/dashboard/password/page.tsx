@@ -108,8 +108,6 @@ function PasswordPage() {
               <div className="grid content-between w-full">
                 <div className="mb-8 place-self-center w-8/12">
                   <Input
-                    icon={MdKey}
-                    iconSize="text-xl"
                     name="password"
                     type="password"
                     required
@@ -118,8 +116,6 @@ function PasswordPage() {
                 </div>
                 <div className="mb-12 place-self-center w-8/12">
                   <Input
-                    icon={MdKey}
-                    iconSize="text-xl"
                     name="confirmPassword"
                     type="password"
                     required

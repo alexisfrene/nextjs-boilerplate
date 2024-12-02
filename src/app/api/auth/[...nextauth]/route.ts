@@ -1,4 +1,4 @@
-import { getRoles } from "@/lib";
+import { getRolesByToken } from "@/lib";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -31,7 +31,7 @@ const handler = NextAuth({
         user = {
           token: user.response.token,
         };
-        const roles = await getRoles(user.token);
+        const roles = await getRolesByToken(user.token);
         if (roles.length === 0) throw new Error("Usuario no tiene Roles");
         // Verificar si solo existe el rol De operador
         if (roles.length === 1 && roles[0] === process.env.OPERATOR_ROLE)

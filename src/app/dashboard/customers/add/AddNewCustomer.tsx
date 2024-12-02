@@ -25,6 +25,7 @@ import { toast } from "sonner";
 import { addCustomer, deleteCustomers } from "@/lib";
 import { ImageCropper } from "@/ui";
 import { ScrollArea } from "@/ui";
+import Image from "next/image";
 
 interface paramsProps {
   selectedRows?: any;
@@ -222,8 +223,6 @@ function AddNewCustomer({ selectedRows }: paramsProps) {
                         <div className="grid grid-rows-2 grid-flow-col place-self-center">
                           <div className="col-span-1">
                             <Input
-                              icon={MdOutlineAbc}
-                              iconSize="text-2xl"
                               name="name"
                               type="text"
                               required
@@ -233,8 +232,6 @@ function AddNewCustomer({ selectedRows }: paramsProps) {
                           </div>
                           <div className="col-span-1">
                             <Input
-                              icon={MdOutline123}
-                              iconSize="text-2xl"
                               name="cuit"
                               type="number"
                               required
@@ -246,7 +243,7 @@ function AddNewCustomer({ selectedRows }: paramsProps) {
                               className="cursor-pointer"
                               onClick={() => setLogotipoOpen(true)}
                             >
-                              <img
+                              <Image
                                 style={{
                                   width: "164px",
                                   height: "164px",
@@ -289,8 +286,6 @@ function AddNewCustomer({ selectedRows }: paramsProps) {
                       </div>
                       <div className="mb-6 place-self-center w-8/12">
                         <Input
-                          icon={MdOutlineAbc}
-                          iconSize="text-2xl"
                           name="fiscalAddress"
                           type="text"
                           required
@@ -300,8 +295,6 @@ function AddNewCustomer({ selectedRows }: paramsProps) {
                       </div>
                       <div className="mb-6 place-self-center w-8/12">
                         <Input
-                          icon={MdOutlineAbc}
-                          iconSize="text-2xl"
                           name="baseAddress"
                           type="text"
                           placeholder="Dirección base"
@@ -310,8 +303,6 @@ function AddNewCustomer({ selectedRows }: paramsProps) {
                       </div>
                       <div className="mb-6 place-self-center w-8/12">
                         <Input
-                          icon={MdOutline123}
-                          iconSize="text-2xl"
                           name="phone"
                           type="number"
                           placeholder="Telefono del Cliente"
@@ -319,8 +310,6 @@ function AddNewCustomer({ selectedRows }: paramsProps) {
                       </div>
                       <div className="mb-6 place-self-center w-8/12">
                         <Input
-                          icon={MdEmail}
-                          iconSize="text-xl"
                           name="email"
                           type="email"
                           required

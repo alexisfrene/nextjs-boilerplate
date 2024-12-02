@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "es2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -18,10 +18,28 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/src*": ["./src/*"],
+      "@/components": ["./src/components/index.ts"],
+      "@/ui": ["./src/components/index.ts"],
+      "@/lib": ["./src/lib/index.ts"],
+      "@/context": ["./src/context/index.ts"],
+      "@/hooks": ["./src/hooks/index.ts"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/lib/token.ts",
+    "src/components/common/Multiselect/index.tsx",
+    "src/components/common/InsightCard/InsightCard.tsx",
+    "src/components/ImageCropper.tsx",
+    "src/components/setCanvasPreview.js",
+    "src/utils/dynamicUseReactTable.js",
+    "src/app/dashboard/operators/page.tsx"
+  ],
   "exclude": ["node_modules"]
 }
